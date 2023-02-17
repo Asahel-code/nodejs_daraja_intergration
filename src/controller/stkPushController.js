@@ -1,5 +1,6 @@
 require('dotenv').config();
 const request = require("request");
+const Payment = require("../models/Payment");
 
 const performPayment = (req, res) => {
 
@@ -14,9 +15,10 @@ const performPayment = (req, res) => {
     // Get current date
     let datenow = new Date();
 
-    const timestamp = datenow.getFullYear() + "" + "" + 0 + 9 + "" + "" + datenow.getDate() + "" + "" + 0 + datenow.getHours() + "" + "" + datenow.getMinutes() + "" + "" + datenow.getSeconds()
+    const timestamp = datenow.getFullYear() + "" + "" + Math.round(datenow.getMonth() + 1) + "" + "" + datenow.getDate() + "" + "" + datenow.getHours() + "" + "" + datenow.getMinutes() + "" + "" + datenow.getSeconds()
     const password = new Buffer.from("174379" + "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919" + timestamp).toString("base64");
 
+    console.log(timestamp)
     request(
         {
             url: url,
@@ -34,20 +36,31 @@ const performPayment = (req, res) => {
                 PartyB: "174379",
                 PhoneNumber: phoneNumber,
                 CallBackURL: `${process.env.APP_URL}/transactionsStatus`,
-                AccountReference: "Test",
+                AccountReference: "Hello",
                 TransactionDesc: "Test"
             }
         },
         (error, response, body) => {
-            if (error) { console.log(error) }
-            else { res.status(200).json(body) }
+            if (error) return res.status(500).json(error)
+            else return res.status(200).json(body) 
         }
     )
 }
 
 const getTransctionsStatus = (req, res) => {
     console.log(".......................STK............................")
-    console.log(req.body)
+    if (req.body.Body.stkCallback.ResultCode === 0) {
+        req.body.Body.stkCallback.CallbackMetadata.Item.forEach(((element) => {
+            Object.values(element)[1];
+            const newPayment = new Payment({
+
+            });
+        }))
+        res.status(200).json(req.body.Body.stkCallback.CallbackMetadata.Item)
+    }
+    else if (req.body.Body.stkCallback.ResultCode === 1032) {
+        console.log(req.body.Body.stkCallback)
+    }
 }
 
 module.exports = {
