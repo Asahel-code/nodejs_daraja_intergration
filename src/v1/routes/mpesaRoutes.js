@@ -7,7 +7,7 @@ const getTranscationStatus = require('../../controller/getTranscationStatus');
 const accessToken = require('../../middleware/generateAccessToken');
 
 //Mpesa express routes
-router.get("/simulate/:phoneNumber&:amount", accessToken, stkPushController.performPayment);
+router.get("/stkpush/:phoneNumber&:amount", accessToken, stkPushController.performPayment);
 router.post("/transactionsStatus", stkPushController.getTransctionsStatus);
 
 // Get transaction status
