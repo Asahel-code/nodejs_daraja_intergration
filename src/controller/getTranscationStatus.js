@@ -24,8 +24,8 @@ const getTranscationStatus = (req, res) => {
                 TransactionID: transactionID,
                 PartyA: "600996",
                 IdentifierType: "1",
-                ResultURL: `${process.env.APP_URL}/TransactionStatus/result/`,
-                QueueTimeOutURL: `${process.env.APP_URL}/TransactionStatus/queue/`,
+                ResultURL: `${process.env.APP_URL}/transactionStatus/result/`,
+                QueueTimeOutURL: `${process.env.APP_URL}/transactionStatus/queue/`,
                 Remarks: "Hello",
                 Occasion: "1"
             }

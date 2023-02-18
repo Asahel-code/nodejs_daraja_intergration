@@ -8,11 +8,11 @@ const accessToken = require('../../middleware/generateAccessToken');
 
 //Mpesa express routes
 router.get("/stkpush/:phoneNumber&:amount", accessToken, stkPushController.performPayment);
-router.post("/transactionsStatus", stkPushController.getTransctionsStatus);
+router.post("/stkpush/result/", stkPushController.getTransctionsStatus);
 
 // Get transaction status
 router.get("/transactionQuery/:transactionID", accessToken, getTranscationStatus.getTranscationStatus);
-router.post("/TransactionStatus/result/", getTranscationStatus.transctionsStatusResults);
+router.post("/transactionStatus/result/", getTranscationStatus.transctionsStatusResults);
 
 //Account balance routes
 router.get("/balance", accessToken, getBalanceController.getBalance);

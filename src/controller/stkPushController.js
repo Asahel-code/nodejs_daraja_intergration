@@ -35,7 +35,7 @@ const performPayment = (req, res) => {
                 PartyA: phoneNumber,
                 PartyB: "174379",
                 PhoneNumber: phoneNumber,
-                CallBackURL: `${process.env.APP_URL}/transactionsStatus`,
+                CallBackURL: `${process.env.APP_URL}/stkpush/result/`,
                 AccountReference: "Hello",
                 TransactionDesc: "Test"
             }
