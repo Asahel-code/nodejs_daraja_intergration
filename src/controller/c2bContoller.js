@@ -1,37 +1,62 @@
-const request = require("request");
+const AxiosUtility = require("../helper/axiosUtility");
+
+const registerURLs = async (req, res) => {
+    let url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl";
+    let auth = "Bearer " + req.access_token;
+
+    const data = {
+        ShortCode: "174379",
+        ResponseType: 'Completed',
+        ConfirmationURL: `${process.env.APP_URL}/api/v1/payment/confirmation`,
+        ValidationURL: `${process.env.APP_URL}/api/v1/payment/validation`,
+    };
+
+    await AxiosUtility.post(url,
+        data, {
+        headers: {
+            Authorization: auth
+        },
+    })
+        .then((response) => {
+            return res.status(200).json(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+}
 
 
 // make payment function
-const performPayment = (req, res) => {
+const performPayment = async (req, res) => {
 
     // get phone number from url params 
     const {
-        params: { phoneNumber },
+        params: { phoneNumber, amount },
     } = req;
 
-    let url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate"
-    let auth = "Bearer " + req.access_token
+    let url = "/mpesa/c2b/v1/simulate";
+    let auth = "Bearer " + req.access_token;
 
-    request(
-        {
-            url: url,
-            method: "POST",
-            headers: {
-                Authorization: auth
-            },
-            json: {
-                CommandID: "CustomerPayBillOnline",
-                Amount: "1",
-                Msisdn: phoneNumber,
-                BillRefNumber: "00000",
-                ShortCode: "600247",
-            }
+    const data = {
+        CommandID: "CustomerPayBillOnline",
+        Amount: amount,
+        Msisdn: phoneNumber,
+        BillRefNumber: "00000",
+        ShortCode: "600983",
+    }
+
+    await AxiosUtility.post(url, data, {
+        headers: {
+            Authorization: auth
         },
-        (error, response, body) => {
-            if (error) { console.log(error) }
-            else { res.status(200).json(body) }
-        }
-    )
+    })
+        .then((response) => {
+            return res.status(200).json(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
 }
 
 const confirm = (req, res) => {
@@ -44,7 +69,8 @@ const validate = (req, res) => {
     console.log(req.body)
 }
 
-module.exports = { 
+module.exports = {
+    registerURLs,
     performPayment,
     confirm,
     validate

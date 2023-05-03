@@ -19,4 +19,10 @@ router.get("/balance", accessToken, getBalanceController.getBalance);
 router.post("/AccountBalance/queue", getBalanceController.accountBalanceQueue);
 router.post("/AccountBalance/result", getBalanceController.accountBalanceResults);
 
+//Mpesa C2B routes
+router.get("/registerUrls", accessToken, c2bController.registerURLs);
+router.get("/c2b/:phoneNumber&:amount", accessToken, c2bController.performPayment);
+router.post("/confirmation", accessToken, c2bController.confirm);
+router.post("/validation", accessToken, c2bController.validate);
+
 module.exports = router;

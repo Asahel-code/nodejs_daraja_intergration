@@ -12,13 +12,13 @@ const performPayment = (req, res) => {
     let url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
     let auth = "Bearer " + req.access_token
 
-    // Get current date
-    let datenow = new Date();
 
-    const timestamp = datenow.getFullYear() + "" + "" + Math.round(datenow.getMonth() + 1) + "" + "" + datenow.getDate() + "" + "" + datenow.getHours() + "" + "" + datenow.getMinutes() + "" + "" + datenow.getSeconds()
+    const timestamp = new Date()
+    .toISOString()
+    .replace(/[^0-9]/g, '')
+    .slice(0, -3);
     const password = new Buffer.from("174379" + "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919" + timestamp).toString("base64");
-
-    console.log(timestamp)
+    
     request(
         {
             url: url,
@@ -35,7 +35,7 @@ const performPayment = (req, res) => {
                 PartyA: phoneNumber,
                 PartyB: "174379",
                 PhoneNumber: phoneNumber,
-                CallBackURL: `${process.env.APP_URL}/stkpush/result/`,
+                CallBackURL: `${process.env.APP_URL}/api/v1/payment/stkpush/result/`,
                 AccountReference: "Hello",
                 TransactionDesc: "Test"
             }

@@ -1,27 +1,22 @@
 require('dotenv').config();
-const request = require("request");
+const AxiosUtility = require('../helper/axiosUtility');
 
-const accessToken = (req, res, next) => {
-    let url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
+const accessToken = async (req, res, next) => {
+    let url = "/oauth/v1/generate?grant_type=client_credentials"
     let auth = new Buffer.from(`${process.env.CONSUMER_KEY}:${process.env.CONSUMER_SECRET}`).toString("base64");
 
-    request(
-        {
-            url: url,
-            headers: {
-                "Authorization": "Basic " + auth
-            }
-        },
-        (error, response, body) => {
-            if (error) {
-                console.log(error)
-            }
-            else {
-                req.access_token = JSON.parse(body).access_token
-                next()
-            }
+    await AxiosUtility.get(url, {
+        headers: {
+            "Authorization": "Basic " + auth
         }
-    )
+    })
+        .then((response) => {
+            req.access_token = response.data.access_token
+            next()
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 }
 
 module.exports = accessToken;
