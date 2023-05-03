@@ -5,7 +5,7 @@ const registerURLs = async (req, res) => {
     let auth = "Bearer " + req.access_token;
 
     const data = {
-        ShortCode: "174379",
+        ShortCode: "600983",
         ResponseType: 'Completed',
         ConfirmationURL: `${process.env.APP_URL}/api/v1/payment/confirmation`,
         ValidationURL: `${process.env.APP_URL}/api/v1/payment/validation`,
