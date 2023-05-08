@@ -67,6 +67,7 @@ const confirm = (req, res) => {
 const validate = (req, res) => {
     console.log(".......................Validation............................")
     if (req.body.TransAmount == "5") {
+        console.log(req.body)
         return res.json(
             {
                 ResultCode: "0",
@@ -75,6 +76,7 @@ const validate = (req, res) => {
         );
     }
     else {
+        console.log(req.body)
         return res.json(
             {
                 ResultCode: "C2B00011",
@@ -82,7 +84,6 @@ const validate = (req, res) => {
             }
         );
     }
-    console.log(req.body)
 }
 
 module.exports = {
