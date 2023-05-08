@@ -1,50 +1,52 @@
 require('dotenv').config();
-const request = require("request");
 const Payment = require("../models/Payment");
+const AxiosUtility = require("../helper/axiosUtility");
 
-const performPayment = (req, res) => {
+const performPayment = async (req, res) => {
 
     // get phone number and amount from url params
     const { phoneNumber } = req.params
     const { amount } = req.params
 
 
-    let url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+    let url = "/mpesa/stkpush/v1/processrequest"
     let auth = "Bearer " + req.access_token
 
 
     const timestamp = new Date()
-    .toISOString()
-    .replace(/[^0-9]/g, '')
-    .slice(0, -3);
+        .toISOString()
+        .replace(/[^0-9]/g, '')
+        .slice(0, -3);
     const password = new Buffer.from("174379" + "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919" + timestamp).toString("base64");
-    
-    request(
-        {
-            url: url,
-            method: "POST",
-            headers: {
-                Authorization: auth
-            },
-            json: {
-                BusinessShortCode: "174379",
-                Password: password,
-                Timestamp: timestamp,
-                TransactionType: "CustomerPayBillOnline",
-                Amount: amount,
-                PartyA: phoneNumber,
-                PartyB: "174379",
-                PhoneNumber: phoneNumber,
-                CallBackURL: `${process.env.APP_URL}/api/v1/payment/stkpush/result/`,
-                AccountReference: "Hello",
-                TransactionDesc: "Test"
-            }
+
+    const data = {
+        BusinessShortCode: "174379",
+        Password: password,
+        Timestamp: timestamp,
+        TransactionType: "CustomerPayBillOnline",
+        Amount: amount,
+        PartyA: phoneNumber,
+        PartyB: "174379",
+        PhoneNumber: phoneNumber,
+        CallBackURL: `${process.env.APP_URL}/api/v1/payment/stkpush/result/`,
+        AccountReference: "Hello",
+        TransactionDesc: "Test"
+    }
+
+
+    await AxiosUtility.post(url,
+        data, {
+        headers: {
+            Authorization: auth
         },
-        (error, response, body) => {
-            if (error) return res.status(500).json(error)
-            else return res.status(200).json(body) 
-        }
-    )
+    })
+        .then((response) => {
+            return res.status(200).json(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
 }
 
 const getTransctionsStatus = (req, res) => {

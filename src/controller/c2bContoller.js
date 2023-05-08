@@ -42,7 +42,7 @@ const performPayment = async (req, res) => {
         Amount: amount,
         Msisdn: phoneNumber,
         BillRefNumber: "00000",
-        ShortCode: "600983",
+        ShortCode: "600990",
     }
 
     await AxiosUtility.post(url, data, {
