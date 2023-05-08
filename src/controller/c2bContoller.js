@@ -5,7 +5,7 @@ const registerURLs = async (req, res) => {
     let auth = "Bearer " + req.access_token;
 
     const data = {
-        ShortCode: "600990",
+        ShortCode: "600986",
         ResponseType: 'Completed',
         ConfirmationURL: `${process.env.APP_URL}/api/v1/payment/confirmation`,
         ValidationURL: `${process.env.APP_URL}/api/v1/payment/validation`,
@@ -42,7 +42,7 @@ const performPayment = async (req, res) => {
         Amount: amount,
         Msisdn: phoneNumber,
         BillRefNumber: "00000",
-        ShortCode: "600990",
+        ShortCode: "600986",
     }
 
     await AxiosUtility.post(url, data, {
@@ -66,6 +66,22 @@ const confirm = (req, res) => {
 
 const validate = (req, res) => {
     console.log(".......................Validation............................")
+    if (req.body.TransAmount == "5") {
+        return res.json(
+            {
+                ResultCode: "0",
+                ResultDesc: "Accepted",
+            }
+        );
+    }
+    else {
+        return res.json(
+            {
+                ResultCode: "C2B00011",
+                ResultDesc: "Rejected",
+            }
+        );
+    }
     console.log(req.body)
 }
 
