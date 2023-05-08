@@ -5,11 +5,13 @@ const getBalance = async (req, res) => {
     let url = "/mpesa/accountbalance/v1/query";
     let auth = "Bearer " + req.access_token;
 
+    const password = new Buffer.from("600996" + "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919").toString("base64");
+
     const data = {
-        Initiator: "testApi584!",
-        SecurityCredential: "RpNt7V0rS1osZ3Yx18iVwVkzOji8ZZBVqqzgmAwC6kfbJy8+zcFkE7VKZIRYISZaTHDqlS3LDlLJXoyFlMGChj4OvC66g9sgfA2Dl9/cNctAz4qo0HS4+X05uS//brr5tfkUjhFAB+l91UKlIWpQezD4fKAI0GnWIkb3WC1Rce8p1XXSFRSHnkaGScQhrabolPEIVk7tkrnCWl4UY9ghTkADY7QmIZN9pB+uhDkanfcb3T1aY4jGoeU6PG7+gR37Fvc7jdL7e1YNOqaDaZuSRSozs83oWJwDqM/XRAJCblgLO60CtHORGIGdlDmNt5qMt5Z/2ADKS7F6jGfr/9NzfA==",
+        Initiator: "testapi",
+        SecurityCredential: password,
         CommandID: "AccountBalance",
-        PartyA: "600584",
+        PartyA: "600978",
         IdentifierType: "4",
         Remarks: "Remarks",
         QueueTimeOutURL: `${process.env.APP_URL}/AccountBalance/queue/`,
