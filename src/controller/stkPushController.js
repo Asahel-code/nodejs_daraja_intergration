@@ -51,17 +51,34 @@ const performPayment = async (req, res) => {
 
 const getTransctionsStatus = (req, res) => {
     console.log(".......................STK............................")
-    if (req.body.Body.stkCallback.ResultCode === 0) {
-        req.body.Body.stkCallback.CallbackMetadata.Item.forEach(((element) => {
-            Object.values(element)[1];
-            const newPayment = new Payment({
+    if (req.method === "POST") {
+        const data = req.body;
 
-            });
-        }))
-        res.status(200).json(req.body.Body.stkCallback.CallbackMetadata.Item)
-    }
-    else if (req.body.Body.stkCallback.ResultCode === 1032) {
-        console.log(req.body.Body.stkCallback)
+        if (data.Body.stkCallback.ResultCode === 0) {
+            var Item = data.Body.stkCallback.CallbackMetadata.Item;
+
+            var metadata = {
+                MerchantRequestID: data.Body.stkCallback.MerchantRequestID,
+                CheckoutRequestID: data.Body.stkCallback.CheckoutRequestID,
+                ResultCode: data.Body.stkCallback.ResultCode,
+                ResultDesc: data.Body.stkCallback.ResultDesc
+            };
+
+            var mpesaData = Item.reduce(function (obj, item) {
+                obj[item.Name] = item.Value;
+                return obj;
+            }, metadata);
+
+            console.log(mpesaData);
+        }
+        else if (data.Body.stkCallback.ResultCode === 1032) {
+            console.log(data.Body.stkCallback)
+            return res.status(200).json(data.Body)
+        }
+        else if (data.Body.stkCallback.ResultCode === 1037) {
+            console.log(data.Body.stkCallback)
+            return res.status(200).json(data.Body)
+        }
     }
 }
 
