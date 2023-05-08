@@ -64,6 +64,8 @@ const getTransctionsStatus = (req, res) => {
                 ResultDesc: data.Body.stkCallback.ResultDesc
             };
 
+            console.log(mpesaData);
+
             var mpesaData = Item.reduce(function (obj, item) {
                 obj[item.Name] = item.Value;
                 return obj;
