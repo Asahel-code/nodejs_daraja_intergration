@@ -1,11 +1,11 @@
 const AxiosUtility = require("../helper/axiosUtility");
 
 const registerURLs = async (req, res) => {
-    let url = "https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl";
+    let url = "/mpesa/c2b/v1/registerurl";
     let auth = "Bearer " + req.access_token;
 
     const data = {
-        ShortCode: "600983",
+        ShortCode: "600990",
         ResponseType: 'Completed',
         ConfirmationURL: `${process.env.APP_URL}/api/v1/payment/confirmation`,
         ValidationURL: `${process.env.APP_URL}/api/v1/payment/validation`,
