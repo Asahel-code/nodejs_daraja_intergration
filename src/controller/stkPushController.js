@@ -70,8 +70,6 @@ const getTransctionsStatus = (req, res) => {
                 obj[item.Name] = item.Value;
                 return obj;
             }, metadata);
-
-            console.log(mpesaData);
         }
         else if (data.Body.stkCallback.ResultCode === 1032) {
             console.log(data.Body.stkCallback)
