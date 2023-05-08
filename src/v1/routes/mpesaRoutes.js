@@ -13,6 +13,7 @@ router.post("/stkpush/result/", stkPushController.getTransctionsStatus);
 // Get transaction status
 router.get("/transactionQuery/:transactionID", accessToken, getTranscationStatus.getTranscationStatus);
 router.post("/transactionStatus/result/", getTranscationStatus.transctionsStatusResults);
+router.post("/transactionStatus/queue/", getTranscationStatus.transctionsStatusQueue);
 
 //Account balance routes
 router.get("/balance", accessToken, getBalanceController.getBalance);

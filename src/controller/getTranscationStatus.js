@@ -15,10 +15,11 @@ const getTranscationStatus = async (req, res) => {
         SecurityCredential: password,
         CommandID: "TransactionStatusQuery",
         TransactionID: transactionID,
+        IdentifierType: "Organization shortcode",
         PartyA: "600996",
         IdentifierType: "1",
-        ResultURL: `${process.env.APP_URL}/transactionStatus/result/`,
-        QueueTimeOutURL: `${process.env.APP_URL}/transactionStatus/queue/`,
+        ResultURL: `${process.env.APP_URL}/transactionStatus/result`,
+        QueueTimeOutURL: `${process.env.APP_URL}/transactionStatus/queue`,
         Remarks: "Hello",
         Occasion: "1"
     }
@@ -39,11 +40,17 @@ const getTranscationStatus = async (req, res) => {
 }
 
 const transctionsStatusResults = (req, res) => {
-    console.log(".......................MSISDN............................")
+    console.log(".......................Results............................")
+    console.log(req.body)
+}
+
+const transctionsStatusQueue = (req, res) => {
+    console.log(".......................TimeOut............................")
     console.log(req.body)
 }
 
 module.exports = {
     getTranscationStatus,
-    transctionsStatusResults
+    transctionsStatusResults,
+    transctionsStatusQueue
 }
