@@ -8,6 +8,7 @@ const accessToken = require('../../middleware/generateAccessToken');
 
 //Mpesa express routes
 router.get("/stkpush/:phoneNumber&:amount", accessToken, stkPushController.performPayment);
+router.get("/stkpush/query/:checkoutRequestID", accessToken, stkPushController.querySTKPayment);
 router.post("/stkpush/result/", stkPushController.getTransctionsStatus);
 
 // Get transaction status
