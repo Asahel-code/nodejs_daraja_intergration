@@ -64,12 +64,12 @@ const getTransctionsStatus = (req, res) => {
                 ResultDesc: data.Body.stkCallback.ResultDesc
             };
 
-            console.log(mpesaData);
-
             var mpesaData = Item.reduce(function (obj, item) {
                 obj[item.Name] = item.Value;
                 return obj;
             }, metadata);
+
+            console.log(mpesaData);
         }
         else if (data.Body.stkCallback.ResultCode === 1032) {
             console.log(data.Body.stkCallback)
