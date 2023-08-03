@@ -88,7 +88,7 @@ const getTransctionsStatus = (req, res, next) => {
     if (req.method === "POST") {
         const data = req.body;
 
-        console.log(data.Body.stkCallback)
+        console.log(data.Body)
     }
 }
 
