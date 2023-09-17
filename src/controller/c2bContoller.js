@@ -66,7 +66,7 @@ const confirm = (req, res) => {
 
 const validate = (req, res) => {
     console.log(".......................Validation............................")
-    if (req.body.TransAmount == "5") {
+    if (req.body.TransAmount == "1") {
         console.log(req.body)
         return res.json(
             {
@@ -79,7 +79,7 @@ const validate = (req, res) => {
         console.log(req.body)
         return res.json(
             {
-                ResultCode: "C2B00011",
+                ResultCode: "C2B00013",
                 ResultDesc: "Rejected",
             }
         );
